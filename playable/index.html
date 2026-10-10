@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6ead8">
+  <title>안 돼! 사서님! · 고양이가 된 사서</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="game-shell" aria-label="고양이가 된 사서 엔딩 미니게임">
+    <header class="game-header">
+      <div><span class="eyebrow">고양이가 된 사서 · 마지막 이야기</span><h1>안 돼! 사서님!</h1></div>
+      <div class="header-actions">
+        <button id="restart-button" class="icon-button restart-button" type="button" aria-label="처음부터 다시 시작" disabled>↻</button>
+        <button id="pause-button" class="icon-button" type="button" aria-label="게임 잠깐 멈추기" disabled>Ⅱ</button>
+      </div>
+    </header>
+    <section class="stage" aria-label="도서관 계단">
+      <div class="scene-viewport">
+      <canvas id="game-canvas" width="768" height="1152" tabindex="0" aria-label="고양이를 좌우로 끌어 사서님을 받아 주세요. 키보드 좌우 화살표도 사용할 수 있습니다."></canvas>
+      <div id="intro" class="overlay intro-overlay">
+        <div class="message-card">
+          <span class="card-kicker">마지막 사고를 막아 주세요!</span>
+          <h2>사서님, 계단에서는<br>천천히 가야죠!</h2>
+          <p>고양이를 <strong>좌우로 끌어</strong> 사서님을 따라가세요.<br>휘청하는 순간, 아래에서 받아 주세요!</p>
+          <p class="small-note">서두르지 않아도 괜찮아요.<br>끝까지 함께 도와주세요.</p>
+          <p id="load-status" class="load-status" role="status">그림을 준비하고 있어요…</p>
+          <button id="start-button" class="primary-button" type="button" disabled>시작하기</button>
+          <button id="retry-load-button" class="text-button" type="button" hidden>그림 다시 불러오기</button>
+        </div>
+      </div>
+      <div id="pause-overlay" class="overlay pause-overlay" hidden>
+        <div class="message-card compact-card">
+          <h2>잠깐 쉬어가요</h2>
+          <p id="pause-message">준비되면 이어서 도와주세요.</p>
+          <button id="resume-button" class="primary-button" type="button">이어서 하기</button>
+        </div>
+      </div>
+      <div id="speech-bubble" class="speech-bubble" aria-hidden="true" hidden></div>
+      <div id="cat-speech-bubble" class="speech-bubble cat-speech-bubble" aria-hidden="true" hidden></div>
+      <div id="bump-label" class="bump-label" aria-hidden="true" hidden>쿵!</div>
+      </div>
+    </section>
+    <footer class="game-footer">
+      <p id="instruction" aria-live="polite">고양이와 함께 마지막 사고를 막아 주세요.</p>
+      <div id="ending-controls" class="ending-controls" hidden>
+        <button id="comic-button" class="primary-button" type="button">엔딩 만화 보기</button>
+        <button id="replay-button" class="secondary-button" type="button">다시 보기</button>
+      </div>
+      <span id="keyboard-note" class="keyboard-note">컴퓨터에서는 ← → 키로 움직일 수 있어요.</span>
+    </footer>
+  </main>
+  <dialog id="comic-dialog" aria-labelledby="comic-title">
+    <div class="dialog-header"><h2 id="comic-title">다시, 제자리로!</h2><button id="close-comic-button" class="icon-button" type="button" aria-label="만화 닫기">×</button></div>
+    <div class="comic-toolbar" aria-label="만화 확대 조절">
+      <button id="zoom-out-button" class="secondary-button" type="button" aria-label="만화 축소">−</button>
+      <output id="comic-zoom" aria-live="polite">100%</output>
+      <button id="zoom-in-button" class="secondary-button" type="button" aria-label="만화 확대">＋</button>
+      <button id="zoom-reset-button" class="text-button" type="button">화면에 맞추기</button>
+    </div>
+    <div id="comic-viewport" class="comic-viewport" tabindex="0" aria-label="확대된 만화는 좌우로 스크롤하여 볼 수 있어요.">
+      <img id="comic-image" draggable="false" alt="계단에서 휘청한 사서를 고양이가 구하다 머리가 쿵! 사서는 앗.. 돌아왔다! 하고 바닥에 멍하니 앉고, 고양이는 야옹~ 하며 놀라 뛰어갑니다.">
+    </div>
+    <p class="dialog-thanks">끝까지 도와줘서 고마워요!</p>
+  </dialog>
+  <noscript>이 게임은 JavaScript를 켜야 실행할 수 있습니다.</noscript>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

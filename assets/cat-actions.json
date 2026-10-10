@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "image": "cat-actions.png",
+  "canvas_size": [
+    1254,
+    1254
+  ],
+  "reference_frame": "run_1",
+  "reference_height": 392,
+  "source_facing": "right",
+  "coordinate_note": "content_rect은 PNG 원본 픽셀. anchor/contact_in_content는 해당 crop의 왼쪽 위 기준 픽셀. 앵커는 발/바닥선, contact는 이마. 모든 자세는 reference_height 기준 공통 scale을 사용한다.",
+  "actions": {
+    "run": [
+      "run_1",
+      "run_2"
+    ],
+    "idle": [
+      "run_1"
+    ],
+    "jump": [
+      "rescue"
+    ],
+    "flee": [
+      "flee"
+    ]
+  },
+  "frames": [
+    {
+      "id": "run_1",
+      "rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "content_rect": [
+        71,
+        162,
+        534,
+        396
+      ],
+      "anchor_in_content": [
+        267.0,
+        394
+      ],
+      "contact_in_content": [
+        461,
+        140
+      ],
+      "duration_ms": 160,
+      "facing": "right"
+    },
+    {
+      "id": "run_2",
+      "rect": [
+        627,
+        0,
+        627,
+        627
+      ],
+      "content_rect": [
+        687,
+        170,
+        529,
+        394
+      ],
+      "anchor_in_content": [
+        264.5,
+        392
+      ],
+      "contact_in_content": [
+        483,
+        142
+      ],
+      "duration_ms": 160,
+      "facing": "right"
+    },
+    {
+      "id": "rescue",
+      "rect": [
+        0,
+        627,
+        627,
+        627
+      ],
+      "content_rect": [
+        78,
+        684,
+        543,
+        465
+      ],
+      "anchor_in_content": [
+        271.5,
+        463
+      ],
+      "contact_in_content": [
+        102,
+        105
+      ],
+      "duration_ms": 180,
+      "facing": "left"
+    },
+    {
+      "id": "flee",
+      "rect": [
+        627,
+        627,
+        627,
+        627
+      ],
+      "content_rect": [
+        702,
+        780,
+        516,
+        364
+      ],
+      "anchor_in_content": [
+        258.0,
+        362
+      ],
+      "contact_in_content": [
+        468,
+        134
+      ],
+      "duration_ms": 180,
+      "facing": "right"
+    }
+  ]
+}

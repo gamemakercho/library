@@ -1,0 +1,176 @@
+{
+  "type": "static-canvas-audit",
+  "browserChecked": false,
+  "files": [
+    {
+      "name": "01-ready.png",
+      "phase": "idle",
+      "phaseTime": 0,
+      "human": {
+        "x": 566,
+        "y": 264,
+        "action": "run",
+        "facing": -1,
+        "rotation": 0
+      },
+      "cat": {
+        "x": 180,
+        "y": 1075,
+        "action": "idle",
+        "facing": 1,
+        "rotation": 0
+      }
+    },
+    {
+      "name": "02-tracking.png",
+      "phase": "tracking",
+      "phaseTime": 4.25,
+      "human": {
+        "x": 533.8192419825073,
+        "y": 414.14561062520244,
+        "action": "run",
+        "facing": -1,
+        "rotation": 0
+      },
+      "cat": {
+        "x": 180,
+        "y": 1075,
+        "action": "idle",
+        "facing": 1,
+        "rotation": 0
+      }
+    },
+    {
+      "name": "03-slip.png",
+      "phase": "slip",
+      "phaseTime": 0.4,
+      "human": {
+        "x": 361.25925925925924,
+        "y": 787.2222222222222,
+        "action": "slip",
+        "facing": -1,
+        "rotation": -0.08660254037844388
+      },
+      "cat": {
+        "x": 382,
+        "y": 1075,
+        "action": "run",
+        "facing": 1,
+        "rotation": 0
+      }
+    },
+    {
+      "name": "04-rescue-jump.png",
+      "phase": "jump",
+      "phaseTime": 0.4,
+      "human": {
+        "x": 379.4882196287723,
+        "y": 1011.9596394354423,
+        "action": "catch",
+        "facing": -1,
+        "rotation": 0
+      },
+      "cat": {
+        "x": 382,
+        "y": 1023.0384757729337,
+        "action": "jump",
+        "facing": 1,
+        "rotation": 0
+      }
+    },
+    {
+      "name": "05-forehead-contact.png",
+      "phase": "contact",
+      "phaseTime": 0.26,
+      "human": {
+        "x": 382,
+        "y": 1050,
+        "action": "catch",
+        "facing": -1,
+        "rotation": 0
+      },
+      "cat": {
+        "x": 382,
+        "y": 1015,
+        "action": "jump",
+        "facing": 1,
+        "rotation": 0
+      }
+    },
+    {
+      "name": "06-recovery.png",
+      "phase": "recovery",
+      "phaseTime": 0.7,
+      "human": {
+        "x": 382,
+        "y": 1075,
+        "action": "sit",
+        "facing": 1,
+        "rotation": 0
+      },
+      "cat": {
+        "x": 489.3333333333333,
+        "y": 1075,
+        "action": "flee",
+        "facing": 1,
+        "rotation": 0
+      }
+    },
+    {
+      "name": "07-final-panel.png",
+      "phase": "complete",
+      "phaseTime": 0,
+      "human": {
+        "x": 382,
+        "y": 1075,
+        "action": "sit",
+        "facing": 1,
+        "rotation": 0
+      },
+      "cat": {
+        "x": 382,
+        "y": 1075,
+        "action": "flee",
+        "facing": 1,
+        "rotation": 0
+      }
+    },
+    {
+      "name": "08-safe-assist.png",
+      "phase": "assist",
+      "phaseTime": 6.633333333333453,
+      "human": {
+        "x": 382,
+        "y": 1005,
+        "action": "slip",
+        "facing": -1,
+        "rotation": -1.2246467991473533e-17
+      },
+      "cat": {
+        "x": 180,
+        "y": 1075,
+        "action": "run",
+        "facing": 1,
+        "rotation": 0
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "name": "measured-forehead-contact",
+      "distancePixels": 0
+    },
+    {
+      "name": "recovery-shows-native-sit-and-flee",
+      "humanFrame": "sit",
+      "catFrame": "flee",
+      "fixedHumanScale": 0.3776435045317221
+    },
+    {
+      "name": "untouched-run-stops-for-assistance",
+      "phase": "assist",
+      "catStartX": 180,
+      "landingX": 382
+    }
+  ]
+}

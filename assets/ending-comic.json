@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "image": "ending-comic.png",
+  "canvas_size": [
+    1536,
+    1024
+  ],
+  "final_panel": "panel_4",
+  "panels": [
+    {
+      "id": "panel_1",
+      "rect": [
+        0,
+        0,
+        764,
+        508
+      ],
+      "caption": "냐아!"
+    },
+    {
+      "id": "panel_2",
+      "rect": [
+        772,
+        0,
+        764,
+        508
+      ],
+      "caption": "안 돼!"
+    },
+    {
+      "id": "panel_3",
+      "rect": [
+        0,
+        516,
+        764,
+        508
+      ],
+      "caption": "쿵!"
+    },
+    {
+      "id": "panel_4",
+      "rect": [
+        772,
+        516,
+        764,
+        508
+      ],
+      "caption": "앗.. 돌아왔다! / 야옹~"
+    }
+  ]
+}

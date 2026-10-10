@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "design_size": [
+    768,
+    1152
+  ],
+  "background_size": [
+    1024,
+    1536
+  ],
+  "background_scale": 0.75,
+  "stair_tread_baselines": [
+    264,
+    333,
+    414,
+    501,
+    604,
+    711
+  ],
+  "staircase_bottom_y": 798,
+  "floor_y": 1075,
+  "librarian_reference_render_height": 250,
+  "cat_reference_render_height": 85,
+  "rescue_human_feet_y": 1050,
+  "note": "배경에서 측정한 좌표. 접촉 연출은 두 JSON contact_in_content를 일치시키며 캐릭터 크기는 유지한다."
+}

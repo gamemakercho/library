@@ -1,0 +1,101 @@
+@charset "UTF-8";
+:root { color-scheme: light; --ink:#4e3b3b; --paper:#fffaf2; --gold:#e6b866; --plum:#66435b; }
+* { box-sizing: border-box; }
+[hidden] { display:none !important; }
+html { min-height:100%; background:#e8dece; }
+body { margin:0; min-height:100svh; color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif; background:radial-gradient(ellipse at top,#fff9ec,#e8dece 72%); }
+button { font:inherit; -webkit-tap-highlight-color:transparent; cursor:pointer; touch-action:manipulation; }
+button:disabled { cursor:wait; opacity:.55; }
+button:focus-visible, canvas:focus-visible { outline:3px solid #cb7c36; outline-offset:3px; }
+/*
+ * Portrait height budget: header <= 73 px, footer <= 122 px = 195 px.
+ * The 2:3 stage gets the remaining viewport height. Safe-area padding is
+ * subtracted before calculating its width, so the cat and footer stay visible.
+ * 333x667 / 390x667: stage about 315x472; 393x844: stage 393x589.5.
+ */
+.game-shell { width:min(100%,520px); width:min(100%,520px,calc((100svh - 195px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 2 / 3)); margin:auto; min-height:100svh; padding-top:env(safe-area-inset-top); background:var(--paper); box-shadow:0 0 40px #77634518; }
+.game-header { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:15px 17px 12px; border-bottom:2px solid #e4d6c5; }
+.eyebrow { display:block; font-size:10px; font-weight:650; letter-spacing:.035em; color:#8b7669; }
+h1 { font-size:22px; line-height:1.2; letter-spacing:-.04em; margin:5px 0 0; color:#654951; }
+.icon-button { flex:none; width:44px; height:44px; border:1px solid #dfccb4; border-radius:13px; background:#f6eedf; color:#765641; font-size:23px; font-weight:700; }
+.stage { position:relative; width:100%; aspect-ratio:2/3; overflow:hidden; background:#eadcc6; }
+canvas { display:block; width:100%; height:100%; touch-action:none; user-select:none; -webkit-user-select:none; }
+.overlay { position:absolute; inset:0; z-index:2; display:flex; align-items:center; justify-content:center; padding:18px; background:rgba(66,47,43,.27); backdrop-filter:blur(2px); }
+.message-card { width:min(100%,360px); max-height:100%; overflow:auto; overscroll-behavior:contain; padding:27px 22px; border:2px solid #eed9b8; border-radius:21px; background:rgba(255,250,241,.97); box-shadow:0 9px 25px #3f2b3e20; text-align:center; }
+.card-kicker { font-size:12px; font-weight:800; color:#af743e; }
+h2 { font-size:24px; line-height:1.45; letter-spacing:-.045em; margin:10px 0 15px; }
+.message-card p { font-size:14px; line-height:1.8; margin:13px 0; }
+.message-card strong { color:#996337; }
+.message-card .small-note { font-size:12px; color:#897264; line-height:1.6; }
+.load-status { min-height:22px; font-size:12px !important; color:#8b6e56; overflow-wrap:anywhere; }
+.primary-button,.secondary-button { min-height:46px; border:0; border-radius:12px; padding:11px 19px; font-size:14px; font-weight:750; }
+.primary-button { color:#fff8ef; background:var(--plum); box-shadow:0 3px 0 #473345; }
+.secondary-button { color:#715140; background:#f1e6d5; border:1px solid #d5c3a9; }
+.message-card .primary-button { width:100%; margin-top:3px; }
+.text-button { display:block; border:0; padding:10px 6px 0; margin:auto; color:#896547; background:transparent; font-size:12px; text-decoration:underline; }
+.compact-card { padding:20px; }
+.game-footer { min-height:93px; padding:12px 14px calc(12px + env(safe-area-inset-bottom)); text-align:center; background:#fffaf2; border-top:2px solid #e4d6c5; }
+#instruction { min-height:22px; margin:0 0 6px; font-size:13px; line-height:1.5; font-weight:700; color:#7c594b; }
+.keyboard-note { display:block; font-size:10px; line-height:1.5; color:#a08b7a; }
+.ending-controls { display:flex; align-items:center; justify-content:center; gap:10px; padding:7px 0 1px; }
+.bump-label { position:absolute; z-index:1; top:67%; left:45%; color:#715045; font-size:42px; font-weight:900; transform:rotate(-8deg); text-shadow:3px 0 #fff8d7,-3px 0 #fff8d7,0 3px #fff8d7,0 -3px #fff8d7; pointer-events:none; }
+.speech-bubble { position:absolute; z-index:1; transform:translate(-50%,-100%); padding:6px 13px; border:2px solid #7e6151; border-radius:16px; background:#fffdf4; color:#694a42; white-space:nowrap; font-size:16px; font-weight:850; box-shadow:0 2px 0 #e1ceb5; pointer-events:none; }
+.speech-bubble::after { content:""; position:absolute; bottom:-8px; left:45%; width:10px; height:10px; border-right:2px solid #7e6151; border-bottom:2px solid #7e6151; background:#fffdf4; transform:rotate(45deg); }
+dialog { width:min(94vw,640px); max-height:94svh; padding:0; border:2px solid #e6d0b0; border-radius:16px; background:#fffaf2; color:var(--ink); overflow:auto; }
+dialog::backdrop { background:rgba(44,32,37,.65); }
+.dialog-header { position:sticky; top:0; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 14px; background:#fffaf2; border-bottom:1px solid #e8d8c2; }
+.dialog-header h2 { font-size:20px; margin:0; }
+dialog img { display:block; width:100%; height:auto; }
+.dialog-thanks { font-size:14px; text-align:center; font-weight:650; margin:14px 12px 20px; }
+noscript { display:block; padding:20px; color:#9e3a34; background:white; }
+@media (max-height:720px) and (min-width:420px) { .game-shell { max-width:400px; } .game-header { padding-top:9px; padding-bottom:9px; } }
+/* Short landscape screens keep the illustration tall and put text beside it. */
+@media (orientation:landscape) and (max-height:550px) {
+  .game-shell { width:min(100%,720px); max-width:720px; display:grid; grid-template-columns:minmax(0,min(calc((100svh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 2 / 3),calc(100vw - 180px))) minmax(160px,1fr); grid-template-rows:auto 1fr; align-items:start; }
+  .stage { grid-column:1; grid-row:1 / 3; margin-top:12px; }
+  .game-header { grid-column:2; grid-row:1; padding:10px 12px; }
+  h1 { font-size:18px; }
+  .eyebrow { font-size:9px; }
+  .game-footer { grid-column:2; grid-row:2; min-height:0; padding:12px 10px calc(8px + env(safe-area-inset-bottom)); border-top:0; }
+  .overlay { padding:10px; }
+  .message-card { padding:14px 12px; border-radius:14px; }
+  .message-card h2 { font-size:18px; line-height:1.4; margin:8px 0 10px; }
+  .message-card p { font-size:12px; margin:9px 0; }
+  .message-card .small-note { font-size:10px; }
+  .ending-controls { flex-wrap:wrap; }
+}
+@media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto; } }
+/* Keep the text full-width while fitting the intact 2:3 illustration in remaining space. */
+.game-shell { width:min(100%,520px); min-height:0; height:100svh; height:100dvh; display:flex; flex-direction:column; padding-bottom:0; }
+.game-header,.game-footer { flex:none; }
+.header-actions { display:flex; gap:6px; }
+.restart-button { font-size:25px; }
+.stage { flex:1; min-height:0; aspect-ratio:auto; display:flex; align-items:center; justify-content:center; background:#f5ead9; container-type:size; }
+.scene-viewport { position:relative; overflow:hidden; width:min(100%,calc((100svh - 195px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 2 / 3)); aspect-ratio:2/3; }
+@supports (width:1cqw) { .scene-viewport { width:min(100cqw,calc(100cqh * 2 / 3)); } }
+.game-footer { min-height:83px; }
+#instruction { font-size:14px; }
+.comic-toolbar { display:flex; align-items:center; justify-content:center; gap:10px; padding:10px 12px; }
+.comic-toolbar .secondary-button { min-width:44px; padding:8px; }
+.comic-toolbar .text-button { padding:8px 0; margin:0 0 0 6px; }
+#comic-zoom { min-width:42px; text-align:center; font-size:13px; font-variant-numeric:tabular-nums; }
+.comic-viewport { width:100%; max-height:calc(85dvh - 160px); overflow:auto; overscroll-behavior:contain; touch-action:pan-x pan-y pinch-zoom; }
+.comic-viewport img { width:100%; max-width:none; user-select:none; }
+button:disabled { cursor:default; }
+@media (max-width:350px) {
+  h1 { font-size:20px; }
+  .game-header { padding:10px 12px; gap:6px; }
+  .eyebrow { font-size:9px; }
+  .speech-bubble { font-size:14px; padding:5px 9px; }
+  .message-card { padding:18px 14px; }
+  .message-card h2 { font-size:21px; }
+  .message-card p { font-size:13px; }
+}
+@media (orientation:landscape) and (max-height:550px) {
+  .game-shell { width:min(100%,760px); max-width:760px; display:grid; grid-template-columns:minmax(0,1fr) minmax(190px,0.85fr); grid-template-rows:auto 1fr; padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  .stage { grid-column:1; grid-row:1 / 3; margin:0; height:100%; }
+  .game-header { padding:10px; }
+  .game-footer { min-height:0; padding:12px; }
+  .header-actions { gap:4px; }
+  .icon-button { width:40px; height:44px; border-radius:10px; }
+}
