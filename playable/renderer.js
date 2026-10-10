@@ -27,6 +27,13 @@ export function drawActor(ctx, sprite, placement) {
   ctx.translate(placement.x, placement.y);
   ctx.rotate(placement.rotation || 0);
   ctx.scale(placement.flip * placement.scale, placement.scale);
+  const polygon = placement.frame.clip_polygon_in_content;
+  if (polygon) {
+    ctx.beginPath();
+    polygon.forEach(([px, py], i) => i ? ctx.lineTo(px - ax, py - ay) : ctx.moveTo(px - ax, py - ay));
+    ctx.closePath();
+    ctx.clip();
+  }
   ctx.drawImage(sprite.image, sx, sy, sw, sh, -ax, -ay, sw, sh);
   ctx.restore();
 }
@@ -95,7 +102,8 @@ export function renderScene(ctx, assets, state, config) {
   if (state.showComic) { drawFinalPanel(ctx, assets, config); return null; }
   ctx.drawImage(assets.background, 0, 0, w, h);
   marker(ctx, state.landingMarker, state.totalTime, state.phase === 'assist');
-  const human = actorPlacement(assets.librarian, state.human, config.librarianRenderHeight, state.phaseTime);
+  const humanSprite = state.phase === 'tracking' && state.human.action === 'run' ? assets.librarianRun : assets.librarian;
+  const human = actorPlacement(humanSprite, state.human, config.librarianRenderHeight, state.phaseTime);
   const cat = actorPlacement(assets.cat, state.cat, config.catRenderHeight, state.totalTime);
   const humanHead = contactPoint(human);
   if (['jump', 'contact'].includes(state.phase)) {
@@ -109,7 +117,7 @@ export function renderScene(ctx, assets, state, config) {
     cat.rotation = 0;
   }
   // The nearer cat remains visible in front of the crouching human.
-  drawActor(ctx, assets.librarian, human);
+  drawActor(ctx, humanSprite, human);
   drawActor(ctx, assets.cat, cat);
   if (state.showSoulTrails) soulTrails(ctx, humanHead, state.phaseTime / config.contactSeconds);
   if (state.flashOpacity > 0) {

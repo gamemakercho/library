@@ -21,6 +21,7 @@ export class RescueEngine {
     this.state = {
       phase: 'idle', phaseTime: 0, totalTime: 0, catX: this.config.catStartX,
       catFacing: 1, catMovingUntil: 0, paused: false, pauseReason: null,
+      humanFacing: -1,
       landingX: null, jumpStartX: null, rescueHumanStart: null, rescueStarted: false,
       completed: false, assisted: false, completionEmitted: false,
     };
@@ -105,6 +106,12 @@ export class RescueEngine {
         if (s.phaseTime >= c.countdownSeconds) this._phase('tracking');
         break;
       case 'tracking':
+        {
+          const before = this._stairPosition(Math.max(0, s.phaseTime - dt) / c.trackingSeconds);
+          const after = this._stairPosition(s.phaseTime / c.trackingSeconds);
+          const velocity = (after.x - before.x) / dt;
+          if (Math.abs(velocity) > c.facingVelocityThreshold) s.humanFacing = velocity > 0 ? 1 : -1;
+        }
         if (s.phaseTime >= c.trackingSeconds) {
           // Deterministic last-step slip; it is visible before player alignment matters.
           const last = c.stairWaypoints.at(-1);
@@ -170,8 +177,7 @@ export class RescueEngine {
     if (s.phase === 'tracking') {
       progress = clamp(s.phaseTime / c.trackingSeconds, 0, 1);
       const p = this._stairPosition(progress);
-      const lookAhead = this._stairPosition(Math.min(1, progress + 0.01));
-      human = { ...human, ...p, facing: lookAhead.x >= p.x ? 1 : -1 };
+      human = { ...human, ...p, facing: s.humanFacing };
     } else if (['slip', 'assist'].includes(s.phase)) {
       progress = s.phase === 'assist' ? 1 : clamp(s.phaseTime / c.slipSeconds, 0, 1);
       // Stop at the recoverable pose, before the character touches the ground.

@@ -6,11 +6,12 @@ import fs from 'node:fs/promises';
 test('application load retry, pointer cancellation, pauses, replay, comic zoom and completion wiring', async () => {
   const html = await fs.readFile(new URL('../index.html', import.meta.url), 'utf8');
   const noop = () => {};
+  let canvasRect = { left: 30, top: 70, width: 384, height: 576 };
   const context = new Proxy({}, { get: (_, key) => key === 'createRadialGradient' ? () => ({ addColorStop: noop }) : noop, set: () => true });
   class Element extends EventTarget {
     constructor() { super(); this.style = {}; this.dataset = {}; this.hidden = false; this.disabled = false; this.open = false; this.capture = null; }
     getContext() { return context; }
-    getBoundingClientRect() { return { left: 30, top: 70, width: 384, height: 576 }; }
+    getBoundingClientRect() { return { ...canvasRect }; }
     focus() {}
     setAttribute(name, value) { this[name] = value; }
     setPointerCapture(id) { this.capture = id; }
@@ -27,6 +28,9 @@ test('application load retry, pointer cancellation, pauses, replay, comic zoom a
   doc.getElementById = (id) => { assert.ok(elements.has(id), `Missing HTML element: ${id}`); return elements.get(id); };
   const win = new EventTarget();
   win.devicePixelRatio = 2;
+  const preference = new EventTarget();
+  preference.matches = false;
+  win.matchMedia = () => preference;
   let raf;
   let now = 0;
   let fail = true;
@@ -40,7 +44,7 @@ test('application load retry, pointer cancellation, pauses, replay, comic zoom a
   globalThis.Image = class {
     set src(value) {
       this._src = value;
-      [this.naturalWidth, this.naturalHeight] = value.includes('staircase') ? [1024, 1536] : value.includes('comic') ? [1536, 1024] : [1254, 1254];
+      [this.naturalWidth, this.naturalHeight] = value.includes('staircase') || value.includes('8frames') ? [1024, 1536] : value.includes('comic') ? [1536, 1024] : [1254, 1254];
       queueMicrotask(() => this.onload?.());
     }
     get src() { return this._src; }
@@ -109,11 +113,35 @@ test('application load retry, pointer cancellation, pauses, replay, comic zoom a
   assert.equal(completions.length, 0);
   fire(canvas, 'pointerdown', { isPrimary: true, pointerId: 8, clientX: 221 });
   fire(canvas, 'pointerup', { pointerId: 8 });
+  for (let i = 0; i < 60 && canvas.dataset.cutinActive !== 'true'; i++) tick(1 / 60);
+  assert.equal(canvas.dataset.cutinActive, 'true');
+  assert.equal($('bump-label').hidden, true);
+  assert.equal($('pause-overlay').hidden, true);
+  const contactTime = win.libraryEndingGame.getState().phaseTime;
+  tick(0.03);
+  assert.equal(win.libraryEndingGame.getState().phaseTime, contactTime);
+  assert.ok(Number(canvas.dataset.cutinElapsed) > 0);
+  fire($('pause-button'), 'click');
+  const effectTime = canvas.dataset.cutinElapsed;
+  tick(2);
+  assert.equal(canvas.dataset.cutinElapsed, effectTime);
+  fire($('resume-button'), 'click');
+  doc.hidden = true;
+  fire(doc, 'visibilitychange');
+  const hiddenEffectTime = canvas.dataset.cutinElapsed;
+  tick(10);
+  assert.equal(canvas.dataset.cutinElapsed, hiddenEffectTime);
+  doc.hidden = false;
+  fire(doc, 'visibilitychange');
+  assert.equal(win.libraryEndingGame.getState().paused, true);
+  fire($('resume-button'), 'click');
   tick(5);
   assert.deepEqual(completions, [{ gameId: 'library-ending-rescue', completed: true, assisted: true }]);
   assert.deepEqual(callbacks, completions);
   tick(20);
   assert.equal(completions.length, 1);
+  assert.equal(canvas.dataset.cutinActive, 'false');
+  assert.equal(canvas.dataset.cutinPlayed, 'true');
   assert.equal($('ending-controls').hidden, false);
   fire($('comic-button'), 'click');
   assert.equal($('comic-dialog').open, true);
@@ -123,6 +151,8 @@ test('application load retry, pointer cancellation, pauses, replay, comic zoom a
   assert.equal($('comic-image').style.width, '100%');
   fire($('close-comic-button'), 'click');
   fire($('replay-button'), 'click');
+  assert.equal(canvas.dataset.cutinPlayed, 'false');
+  assert.equal(canvas.dataset.cutinElapsed, '0');
   tick(2);
   fire(canvas, 'pointerdown', { isPrimary: true, pointerId: 9, clientX: 221 });
   fire(canvas, 'pointerup', { pointerId: 9 });
@@ -133,4 +163,32 @@ test('application load retry, pointer cancellation, pauses, replay, comic zoom a
   assert.equal($('intro').hidden, false);
   assert.equal(canvas.dataset.phase, 'idle');
   assert.equal($('restart-button').disabled, true);
+  assert.equal(canvas.dataset.cutinPlayed, 'false');
+
+  canvasRect = { left: 5, top: 44, width: 260, height: 390 };
+  win.devicePixelRatio = 4;
+  fire(win, 'resize');
+  assert.equal(canvas.width, 780);
+  assert.equal(canvas.height, 1170);
+  assert.equal(canvas.width / canvas.height, 2 / 3);
+  canvasRect = { left: 30, top: 70, width: 384, height: 576 };
+  win.devicePixelRatio = 2;
+  fire(win, 'orientationchange');
+  assert.equal(canvas.width, 768);
+  assert.equal(canvas.height, 1152);
+
+  preference.matches = true;
+  fire(preference, 'change');
+  fire($('start-button'), 'click');
+  tick(2);
+  fire(canvas, 'pointerdown', { isPrimary: true, pointerId: 10, clientX: 221 });
+  fire(canvas, 'pointerup', { pointerId: 10 });
+  for (let i = 0; i < 900 && canvas.dataset.cutinActive !== 'true'; i++) tick(1 / 60);
+  assert.equal(canvas.dataset.cutinActive, 'true');
+  const reducedContactTime = win.libraryEndingGame.getState().phaseTime;
+  tick(0.03);
+  assert.ok(win.libraryEndingGame.getState().phaseTime > reducedContactTime);
+  tick(0.3);
+  assert.equal(canvas.dataset.cutinActive, 'false');
+  assert.ok(Number(canvas.dataset.cutinElapsed) <= 0.28);
 });

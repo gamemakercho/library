@@ -7,6 +7,7 @@ export const SCENE = Object.freeze({
   catMaxX: 706,
   catStartX: 180,
   librarianRenderHeight: 250,
+  facingVelocityThreshold: 2,
   catRenderHeight: 85,
   // Replace these points with measured foot-contact positions for another background.
   stairWaypoints: [

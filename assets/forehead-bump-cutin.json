@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "image": "forehead-bump-cutin.png",
+  "canvas_size": [
+    1254,
+    1254
+  ],
+  "content_rect": [
+    0,
+    0,
+    1254,
+    1254
+  ],
+  "contact_pivot_normalized": [
+    0.46,
+    0.52
+  ],
+  "text": "쿵!",
+  "timing_ms": {
+    "enter": 170,
+    "hold": 130,
+    "exit": 260,
+    "total": 560,
+    "hit_stop": 70
+  },
+  "stage_width_ratio": {
+    "start": 0.38,
+    "peak": 1.28,
+    "hold": 1.05,
+    "end": 1.45
+  },
+  "target_stage_normalized": [
+    0.5,
+    0.61
+  ],
+  "dim_max_alpha": 0.12,
+  "note": "PNG 속 글자는 없음. 쿵!은 코드로 그린다. 투명 PNG이며 계단/전체화면 배경이 아니다."
+}

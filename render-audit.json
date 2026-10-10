@@ -98,6 +98,36 @@
       }
     },
     {
+      "name": "cutin-40ms.png",
+      "phase": "contact",
+      "cutinTime": 0.04,
+      "cutinActive": true
+    },
+    {
+      "name": "cutin-170ms.png",
+      "phase": "contact",
+      "cutinTime": 0.17,
+      "cutinActive": true
+    },
+    {
+      "name": "cutin-300ms.png",
+      "phase": "contact",
+      "cutinTime": 0.3,
+      "cutinActive": true
+    },
+    {
+      "name": "cutin-450ms.png",
+      "phase": "contact",
+      "cutinTime": 0.45,
+      "cutinActive": true
+    },
+    {
+      "name": "cutin-560ms.png",
+      "phase": "contact",
+      "cutinTime": 0.56,
+      "cutinActive": false
+    },
+    {
       "name": "06-recovery.png",
       "phase": "recovery",
       "phaseTime": 0.7,
@@ -153,6 +183,11 @@
         "facing": 1,
         "rotation": 0
       }
+    },
+    {
+      "name": "run-8frames-both-directions.png",
+      "phase": "atlas-audit",
+      "poseCount": 16
     }
   ],
   "assertions": [
@@ -171,6 +206,12 @@
       "phase": "assist",
       "catStartX": 180,
       "landingX": 382
+    },
+    {
+      "name": "all-eight-run-poses-both-directions-fixed-foot-anchor",
+      "scale": 0.6082725060827251,
+      "cycleSeconds": 0.58,
+      "neighboringOpaquePixelsRemoved": 2434
     }
   ]
 }

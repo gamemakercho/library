@@ -11,7 +11,7 @@ import sys
 
 kit = Path(__file__).resolve().parent.parent
 out = Path(sys.argv[1]) if len(sys.argv) > 1 else kit.parent / 'ending-rescue-playable.html'
-modules = ['scene-config.js', 'engine.js', 'asset-loader.js', 'renderer.js', 'app.js']
+modules = ['scene-config.js', 'engine.js', 'asset-loader.js', 'renderer.js', 'impact-cutin.js', 'app.js']
 parts = []
 for name in modules:
     source = (kit / 'playable' / name).read_text(encoding='utf-8')
@@ -23,9 +23,9 @@ for name in modules:
     parts.append('// Source: ' + name + '\n' + source)
 bundle = '\n\n'.join(parts)
 inline = {}
-for name in ['staircase-background.png', 'librarian-actions.png', 'cat-actions.png', 'ending-comic.png']:
+for name in ['staircase-background.png', 'librarian-actions.png', 'cat-actions.png', 'ending-comic.png', 'librarian-run-8frames.png', 'forehead-bump-cutin.png']:
     inline[name] = 'data:image/png;base64,' + base64.b64encode((kit / 'assets' / name).read_bytes()).decode('ascii')
-for name in ['librarian-actions.json', 'cat-actions.json', 'ending-comic.json']:
+for name in ['librarian-actions.json', 'cat-actions.json', 'ending-comic.json', 'librarian-run-8frames.json', 'forehead-bump-cutin.json']:
     inline[name] = json.loads((kit / 'assets' / name).read_text(encoding='utf-8'))
 data = json.dumps(inline, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 css = (kit / 'playable' / 'style.css').read_text(encoding='utf-8')
@@ -37,4 +37,4 @@ embedded += '<script type="module">\n' + bundle.replace('</script', '<\\/script'
 html = html.replace('<script type="module" src="./app.js"></script>', embedded)
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(html, encoding='utf-8')
-print(json.dumps({'output': str(out.resolve()), 'bytes': out.stat().st_size, 'embedded_images': 4, 'embedded_json': 3}))
+print(json.dumps({'output': str(out.resolve()), 'bytes': out.stat().st_size, 'embedded_images': 6, 'embedded_json': 5}))

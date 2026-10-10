@@ -41,6 +41,10 @@ export function normalizeSpriteMeta(meta, image) {
       const p = pointArray(frame.contact_in_rect || frame.forehead_in_rect);
       contact = [p[0] - (x - outer[0]), p[1] - (y - outer[1])];
     }
+    const polygon = frame.clip_polygon_in_content;
+    if (polygon && (!Array.isArray(polygon) || polygon.length < 3 || polygon.some((p) => !Array.isArray(p) || p.length !== 2 || !p.every(Number.isFinite) || p[0] < 0 || p[1] < 0 || p[0] > w || p[1] > h))) {
+      throw new Error(`클리핑 좌표 오류: ${id}`);
+    }
     return {
       ...frame, id, crop, anchor, contact,
       duration: Math.max(0.02, Number(frame.duration_ms || meta.duration_ms || 140) / 1000),
@@ -103,6 +107,23 @@ export function normalizeComicMeta(meta, image) {
   return { ...meta, panels };
 }
 
+export function normalizeCutinMeta(meta, image) {
+  const crop = rectArray(meta.content_rect);
+  const [x, y, w, h] = crop;
+  const pointValid = (p) => Array.isArray(p) && p.length === 2 && p.every((n) => Number.isFinite(n) && n >= 0 && n <= 1);
+  const timing = meta.timing_ms;
+  const ratios = meta.stage_width_ratio;
+  if (![x, y, w, h].every(Number.isFinite) || x < 0 || y < 0 || w <= 0 || h <= 0 || x + w > image.naturalWidth || y + h > image.naturalHeight ||
+      !pointValid(meta.contact_pivot_normalized) || !pointValid(meta.target_stage_normalized) ||
+      !timing || !['enter', 'hold', 'exit', 'total', 'hit_stop'].every((key) => Number.isFinite(timing[key]) && timing[key] >= 0) ||
+      timing.enter <= 0 || timing.hold <= 0 || timing.exit <= 0 || timing.total !== timing.enter + timing.hold + timing.exit || timing.hit_stop > timing.total ||
+      !ratios || !['start', 'peak', 'hold', 'end'].every((key) => Number.isFinite(ratios[key]) && ratios[key] > 0) ||
+      !Number.isFinite(meta.dim_max_alpha) || meta.dim_max_alpha < 0 || meta.dim_max_alpha > 0.12) {
+    throw new Error('컷인 이미지 또는 연출 좌표를 확인해 주세요.');
+  }
+  return { ...meta, content_rect: crop };
+}
+
 async function readJson(name, signal) {
   const inline = globalThis.LIBRARY_ENDING_INLINE_ASSETS?.[name];
   if (inline !== undefined) return typeof inline === 'string' ? JSON.parse(inline) : inline;
@@ -126,7 +147,7 @@ async function readImage(name, signal) {
 }
 
 export async function loadAssets(signal) {
-  const [background, librarian, cat, comic, librarianMeta, catMeta, comicMeta] = await Promise.all([
+  const [background, librarian, cat, comic, librarianMeta, catMeta, comicMeta, librarianRun, librarianRunMeta, cutin, cutinMeta] = await Promise.all([
     readImage('staircase-background.png', signal),
     readImage('librarian-actions.png', signal),
     readImage('cat-actions.png', signal),
@@ -134,10 +155,20 @@ export async function loadAssets(signal) {
     readJson('librarian-actions.json', signal),
     readJson('cat-actions.json', signal),
     readJson('ending-comic.json', signal),
+    readImage('librarian-run-8frames.png', signal),
+    readJson('librarian-run-8frames.json', signal),
+    readImage('forehead-bump-cutin.png', signal),
+    readJson('forehead-bump-cutin.json', signal),
   ]);
+  const runMeta = normalizeSpriteMeta(librarianRunMeta, librarianRun);
+  if (framesForAction(runMeta, 'run').length !== 8 || runMeta.frames.some((f) => !f.clip_polygon_in_content)) {
+    throw new Error('달리기 8프레임과 폴리곤 좌표를 확인해 주세요.');
+  }
   return {
     background, librarian: { image: librarian, meta: normalizeSpriteMeta(librarianMeta, librarian) },
     cat: { image: cat, meta: normalizeSpriteMeta(catMeta, cat) },
     comic: { image: comic, meta: normalizeComicMeta(comicMeta, comic) },
+    librarianRun: { image: librarianRun, meta: runMeta },
+    cutin: { image: cutin, meta: normalizeCutinMeta(cutinMeta, cutin) },
   };
 }

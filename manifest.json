@@ -1,7 +1,12 @@
 {
-  "version": 2,
+  "version": 3,
   "game": "library-ending-rescue",
   "files": [
+    {
+      "path": "README.md",
+      "bytes": 7855,
+      "sha256": "eb3968fb879227de2a71caae8225d85002a0c245f3161fed1096c55a4ad0e1bb"
+    },
     {
       "path": "assets/cat-actions.json",
       "bytes": 2100,
@@ -23,6 +28,16 @@
       "sha256": "059ea3fe99ed11b64fe0978eb5787476bdec892a6c7edbcac2d7f54e420b5b4f"
     },
     {
+      "path": "assets/forehead-bump-cutin.json",
+      "bytes": 656,
+      "sha256": "ebeb319f326d22d6f7e31779debd2087333605bcdb0a24e8ef04edbd039d49c8"
+    },
+    {
+      "path": "assets/forehead-bump-cutin.png",
+      "bytes": 2049320,
+      "sha256": "a8af64347f763d80fc97e4b85787fd987b3082a9d73522edf1a4d564c9ed68ff"
+    },
+    {
       "path": "assets/layout.json",
       "bytes": 532,
       "sha256": "00867f8c2864b63691c9217d4e5cccecb65339674788fbb8c9b85adbd82e9510"
@@ -38,24 +53,39 @@
       "sha256": "16c780dba86f4514e552a4b4f2f1cb9139ad917e957e2cab12d8ea75f64ab31c"
     },
     {
+      "path": "assets/librarian-run-8frames.json",
+      "bytes": 6659,
+      "sha256": "6ca32fc3e097e328e7d08e80cad08e6dd09ffff1c45a25494e5e1f291f339efc"
+    },
+    {
+      "path": "assets/librarian-run-8frames.png",
+      "bytes": 2125849,
+      "sha256": "ab484a5f43d8f3490a2e952b5958e4104d92f2ddadbc678f4ad059c4d8c608a8"
+    },
+    {
       "path": "assets/staircase-background.png",
       "bytes": 1829956,
       "sha256": "80922b0ff3caf13ea6ad73156e444ea1fc9350bca42d1cedcddd1f53c2506e7f"
     },
     {
       "path": "playable/app.js",
-      "bytes": 10946,
-      "sha256": "c47f9ef7f82f402263560af6f8bebb195fc337b0a4e981c483fb085b53dfe99e"
+      "bytes": 11933,
+      "sha256": "04876b016eccfc5bf91a76f6451dfcae3ddfdbe603b4f6498621f6dcfaf6f357"
     },
     {
       "path": "playable/asset-loader.js",
-      "bytes": 6792,
-      "sha256": "124b3bc43341b3b60f0bc466a2cc9332b9702a66e28212c417eee50e01f6346e"
+      "bytes": 8985,
+      "sha256": "cf253783e62d40014b9f9705c3ab3c73a73d83be9c0260f32e315b0276af888a"
     },
     {
       "path": "playable/engine.js",
-      "bytes": 8547,
-      "sha256": "b4a84ed8500abece2d40d4174ee168dfc35188008ac17d9153d8e3570526aa35"
+      "bytes": 8831,
+      "sha256": "a0fc9523551f86062d15b665f4a1aad8a30f135355e379a84897c8af63f27fb3"
+    },
+    {
+      "path": "playable/impact-cutin.js",
+      "bytes": 4412,
+      "sha256": "53820a9561fd94717709c61332f3c0d1b7263ee5123cd4d5f031f0cc1c13c13e"
     },
     {
       "path": "playable/index.html",
@@ -69,13 +99,13 @@
     },
     {
       "path": "playable/renderer.js",
-      "bytes": 6368,
-      "sha256": "06f33a57fc2809bc44925aa8f395270d2bff2512122942e8c653955603db9597"
+      "bytes": 6722,
+      "sha256": "baa0eaa6a088be5bb6b21642a18129999a6bae9a7414b0db335246f08f1b7e14"
     },
     {
       "path": "playable/scene-config.js",
-      "bytes": 1077,
-      "sha256": "d565a2350fb75208bfc2111802910ca43613bdfcb4739b33632693a85c8067b1"
+      "bytes": 1107,
+      "sha256": "f3e07cd612a57bfe9923bff99bfddb9bb9def7e8c9863d5def82d3948e0f1471"
     },
     {
       "path": "playable/style.css",
@@ -84,8 +114,8 @@
     },
     {
       "path": "playable/tests/app.test.js",
-      "bytes": 6088,
-      "sha256": "6129ab949a4869c9a44d556e7abe6e97b41e2b7bd597c146f808a61a98700a77"
+      "bytes": 8594,
+      "sha256": "18b04621eca22dfbd93cdafc5198d2059452ce156b0048bba8ed29e7ca00de30"
     },
     {
       "path": "playable/tests/assets.test.js",
@@ -98,24 +128,29 @@
       "sha256": "718938323a4652cec779e897ba0f6d718cbb57141be513655326e85104eba184"
     },
     {
-      "path": "playable/tests/render-audit.mjs",
-      "bytes": 4603,
-      "sha256": "999dfc88c008c1e2d4601925de9e9012b4e3ca4172e6ab70d6f02df49924a502"
+      "path": "playable/tests/impact-cutin.test.js",
+      "bytes": 4651,
+      "sha256": "ebf55d8704aa5ce64ed1467bd3fb40417efe51ef40f93c2f2459f6150e973e18"
     },
     {
-      "path": "README.md",
-      "bytes": 6207,
-      "sha256": "4a9af1606e649188324421f80bbda8bac9655c814e97d31a1d432eb8f75e7183"
+      "path": "playable/tests/render-audit.mjs",
+      "bytes": 8120,
+      "sha256": "f8d994d3905061ee9e5c6a8bed5dcce655b91f7b9e9a1a145d9b816852fe1466"
+    },
+    {
+      "path": "playable/tests/run-atlas.test.js",
+      "bytes": 4579,
+      "sha256": "623b3be476a4cb389953668f7bb7786f8e180680c5d22e5e65b53e73d9367d9c"
     },
     {
       "path": "render-audit.json",
-      "bytes": 3506,
-      "sha256": "7c443bb8f1f30909b7dc7b025128e640e1f3464873d5c715f0a1991817774856"
+      "bytes": 4642,
+      "sha256": "6d93cb53e9ed291561f0b19d561840453ddb0eaa3f823ae437f52b6b3cb0ae3e"
     },
     {
       "path": "tools/build-standalone.py",
-      "bytes": 2365,
-      "sha256": "22c3cc50bb5cc67da8700cb9087e5f51ed6e56dbd3819edd3975d0e8482518a2"
+      "bytes": 2498,
+      "sha256": "639d472b46c1d8e2cd53e74b44cbd0b58c5eba5c0668f5cbc9fb36da482c9a3d"
     }
   ]
 }

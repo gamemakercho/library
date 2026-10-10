@@ -2,6 +2,7 @@ import { RescueEngine } from './engine.js';
 import { assetImageSource, loadAssets } from './asset-loader.js';
 import { renderScene } from './renderer.js';
 import { INTEGRATION } from './scene-config.js';
+import { ImpactCutin, drawImpactCutin, advanceImpactTimeline } from './impact-cutin.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('game-canvas');
@@ -15,6 +16,9 @@ let dragOffset = 0;
 let currentInstruction = '';
 let endingControlsShown = false;
 let comicZoom = 1;
+let impact = null;
+let impactPending = false;
+const motionPreference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
 const heldKeys = new Set();
 
 const engine = new RescueEngine({
@@ -29,8 +33,7 @@ const engine = new RescueEngine({
     }
   },
   onEvent(event) {
-    if (event.type === 'forehead-bump') $('bump-label').hidden = false;
-    if (event.type === 'phase' && event.phase === 'recovery') $('bump-label').hidden = true;
+    if (event.type === 'forehead-bump') impactPending = true;
     if (event.type === 'assist') heldKeys.clear();
   },
 });
@@ -57,15 +60,21 @@ function render() {
   canvas.dataset.assisted = String(state.assisted);
   ctx.setTransform(canvas.width / engine.config.worldWidth, 0, 0, canvas.height / engine.config.worldHeight, 0, 0);
   const placements = renderScene(ctx, assets, state, engine.config);
+  if (impactPending && placements && state.phase === 'contact') {
+    impact?.trigger(placements.humanHead);
+    impactPending = false;
+  }
+  if (impact) drawImpactCutin(ctx, assets.cutin.image, impact, engine.config.worldWidth, engine.config.worldHeight);
+  canvas.dataset.cutinActive = String(impact?.active || false);
+  canvas.dataset.cutinElapsed = String(impact?.elapsed || 0);
+  canvas.dataset.cutinPlayed = String(impact?.played || false);
+  canvas.dataset.humanFrame = placements?.human.frame.id || '';
   if (state.instruction !== currentInstruction && state.phase !== 'idle') {
     currentInstruction = state.instruction;
     $('instruction').textContent = currentInstruction;
   }
-  $('bump-label').hidden = state.phase !== 'contact';
-  if (placements) {
-    $('bump-label').style.left = `${Math.min(85, Math.max(10, placements.humanHead.x / engine.config.worldWidth * 100))}%`;
-    $('bump-label').style.top = `${Math.max(5, placements.humanHead.y / engine.config.worldHeight * 100 - 11)}%`;
-  }
+  // The cutin draws the only impact label, inside the clipped gameplay canvas.
+  $('bump-label').hidden = true;
   const speaking = ['tracking', 'slip', 'assist', 'jump', 'recovery'].includes(state.phase) && !state.paused;
   $('speech-bubble').hidden = !speaking;
   if (speaking && placements) {
@@ -97,6 +106,7 @@ async function prepareAssets() {
     const ready = await loadAssets(loadingController.signal);
     if (generation !== loadGeneration) return;
     assets = ready;
+    impact = new ImpactCutin(ready.cutin.meta, { reducedMotion: Boolean(motionPreference?.matches) });
     $('comic-image').src = assetImageSource('ending-comic.png');
     $('load-status').textContent = '준비됐어요!';
     $('start-button').disabled = false;
@@ -111,6 +121,7 @@ async function prepareAssets() {
 
 function startRun() {
   if (!assets || engine.snapshot().phase !== 'idle') return;
+  resetImpact();
   activePointer = null;
   heldKeys.clear();
   currentInstruction = '';
@@ -198,6 +209,16 @@ function replay() {
   startRun();
 }
 
+function resetImpact() {
+  impactPending = false;
+  impact?.reset();
+  if (impact) impact.reducedMotion = Boolean(motionPreference?.matches);
+}
+
+motionPreference?.addEventListener('change', () => {
+  if (impact) impact.reducedMotion = motionPreference.matches;
+});
+
 function setComicZoom(value) {
   comicZoom = Math.min(3, Math.max(1, value));
   $('comic-image').style.width = `${comicZoom * 100}%`;
@@ -240,7 +261,10 @@ function animate(now) {
       const direction = Number(heldKeys.has('ArrowRight')) - Number(heldKeys.has('ArrowLeft'));
       if (direction) engine.moveBy(direction * dt * 490);
     }
-    engine.advance(dt);
+    advanceImpactTimeline(engine, impact, dt, () => {
+      // Consume the one collision event immediately, using the actual rendered foreheads.
+      if (impactPending) render();
+    });
     render();
   }
   requestAnimationFrame(animate);
@@ -258,7 +282,7 @@ window.libraryEndingGame = Object.freeze({
   start: startRun,
   pause: () => { if (!engine.snapshot().paused) togglePause(); },
   resume: () => { if (engine.snapshot().paused) togglePause(); },
-  reset: () => { clearInput(); engine.reset(); lastRaf = null; currentInstruction = ''; endingControlsShown = false; $('comic-dialog').close(); $('intro').hidden = false; $('ending-controls').hidden = true; $('keyboard-note').hidden = false; $('pause-button').disabled = true; $('restart-button').disabled = true; $('instruction').textContent = '고양이와 함께 마지막 사고를 막아 주세요.'; render(); },
+  reset: () => { clearInput(); engine.reset(); resetImpact(); lastRaf = null; currentInstruction = ''; endingControlsShown = false; $('comic-dialog').close(); $('intro').hidden = false; $('ending-controls').hidden = true; $('keyboard-note').hidden = false; $('pause-button').disabled = true; $('restart-button').disabled = true; $('instruction').textContent = '고양이와 함께 마지막 사고를 막아 주세요.'; render(); },
   getState: () => engine.snapshot(),
   integration: INTEGRATION,
 });

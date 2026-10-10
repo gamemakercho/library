@@ -1,0 +1,436 @@
+{
+  "schema_version": 2,
+  "image": "librarian-run-8frames.png",
+  "canvas_size": [
+    1024,
+    1536
+  ],
+  "reference_frame": "run_01",
+  "reference_height": 411,
+  "source_facing": "right",
+  "duration_ms": 75,
+  "actions": {
+    "run": [
+      "run_01",
+      "run_02",
+      "run_03",
+      "run_04",
+      "run_05",
+      "run_06",
+      "run_07",
+      "run_08"
+    ]
+  },
+  "frames": [
+    {
+      "id": "run_01",
+      "content_rect": [
+        123,
+        7,
+        314,
+        411
+      ],
+      "rect": [
+        123,
+        7,
+        314,
+        411
+      ],
+      "anchor_in_content": [
+        169,
+        410
+      ],
+      "contact_in_content": [
+        250,
+        99
+      ],
+      "facing": "right",
+      "duration_ms": 75,
+      "gait_phase": "left_contact",
+      "clip_polygon_in_content": [
+        [
+          0,
+          0
+        ],
+        [
+          314,
+          0
+        ],
+        [
+          314,
+          411
+        ],
+        [
+          227,
+          411
+        ],
+        [
+          227,
+          395
+        ],
+        [
+          0,
+          395
+        ]
+      ]
+    },
+    {
+      "id": "run_02",
+      "content_rect": [
+        640,
+        5,
+        263,
+        407
+      ],
+      "rect": [
+        640,
+        5,
+        263,
+        407
+      ],
+      "anchor_in_content": [
+        128,
+        406
+      ],
+      "contact_in_content": [
+        213,
+        105
+      ],
+      "facing": "right",
+      "duration_ms": 65,
+      "gait_phase": "left_support",
+      "clip_polygon_in_content": [
+        [
+          0,
+          0
+        ],
+        [
+          263,
+          0
+        ],
+        [
+          263,
+          407
+        ],
+        [
+          0,
+          407
+        ]
+      ]
+    },
+    {
+      "id": "run_03",
+      "content_rect": [
+        103,
+        405,
+        289,
+        378
+      ],
+      "rect": [
+        103,
+        405,
+        289,
+        378
+      ],
+      "anchor_in_content": [
+        185,
+        377
+      ],
+      "contact_in_content": [
+        262,
+        111
+      ],
+      "facing": "right",
+      "duration_ms": 70,
+      "gait_phase": "right_pass",
+      "clip_polygon_in_content": [
+        [
+          0,
+          0
+        ],
+        [
+          247,
+          0
+        ],
+        [
+          247,
+          15
+        ],
+        [
+          289,
+          15
+        ],
+        [
+          289,
+          378
+        ],
+        [
+          0,
+          378
+        ]
+      ]
+    },
+    {
+      "id": "run_04",
+      "content_rect": [
+        609,
+        412,
+        369,
+        373
+      ],
+      "rect": [
+        609,
+        412,
+        369,
+        373
+      ],
+      "anchor_in_content": [
+        195,
+        372
+      ],
+      "contact_in_content": [
+        280,
+        112
+      ],
+      "facing": "right",
+      "duration_ms": 80,
+      "gait_phase": "right_flight",
+      "clip_polygon_in_content": [
+        [
+          0,
+          0
+        ],
+        [
+          369,
+          0
+        ],
+        [
+          369,
+          373
+        ],
+        [
+          281,
+          373
+        ],
+        [
+          281,
+          357
+        ],
+        [
+          0,
+          357
+        ]
+      ]
+    },
+    {
+      "id": "run_05",
+      "content_rect": [
+        120,
+        784,
+        326,
+        383
+      ],
+      "rect": [
+        120,
+        784,
+        326,
+        383
+      ],
+      "anchor_in_content": [
+        182,
+        382
+      ],
+      "contact_in_content": [
+        252,
+        104
+      ],
+      "facing": "right",
+      "duration_ms": 75,
+      "gait_phase": "right_contact",
+      "clip_polygon_in_content": [
+        [
+          0,
+          0
+        ],
+        [
+          326,
+          0
+        ],
+        [
+          326,
+          383
+        ],
+        [
+          230,
+          383
+        ],
+        [
+          230,
+          359
+        ],
+        [
+          0,
+          359
+        ]
+      ]
+    },
+    {
+      "id": "run_06",
+      "content_rect": [
+        638,
+        771,
+        247,
+        394
+      ],
+      "rect": [
+        638,
+        771,
+        247,
+        394
+      ],
+      "anchor_in_content": [
+        135,
+        393
+      ],
+      "contact_in_content": [
+        210,
+        116
+      ],
+      "facing": "right",
+      "duration_ms": 65,
+      "gait_phase": "right_support",
+      "clip_polygon_in_content": [
+        [
+          0,
+          0
+        ],
+        [
+          247,
+          0
+        ],
+        [
+          247,
+          386
+        ],
+        [
+          113,
+          386
+        ],
+        [
+          113,
+          394
+        ],
+        [
+          0,
+          394
+        ]
+      ]
+    },
+    {
+      "id": "run_07",
+      "content_rect": [
+        139,
+        1146,
+        257,
+        387
+      ],
+      "rect": [
+        139,
+        1146,
+        257,
+        387
+      ],
+      "anchor_in_content": [
+        156,
+        386
+      ],
+      "contact_in_content": [
+        226,
+        100
+      ],
+      "facing": "right",
+      "duration_ms": 70,
+      "gait_phase": "left_pass",
+      "clip_polygon_in_content": [
+        [
+          0,
+          0
+        ],
+        [
+          211,
+          0
+        ],
+        [
+          211,
+          24
+        ],
+        [
+          257,
+          24
+        ],
+        [
+          257,
+          387
+        ],
+        [
+          0,
+          387
+        ]
+      ]
+    },
+    {
+      "id": "run_08",
+      "content_rect": [
+        589,
+        1159,
+        365,
+        369
+      ],
+      "rect": [
+        589,
+        1159,
+        365,
+        369
+      ],
+      "anchor_in_content": [
+        193,
+        368
+      ],
+      "contact_in_content": [
+        273,
+        92
+      ],
+      "facing": "right",
+      "duration_ms": 80,
+      "gait_phase": "left_flight",
+      "clip_polygon_in_content": [
+        [
+          161,
+          0
+        ],
+        [
+          365,
+          0
+        ],
+        [
+          365,
+          369
+        ],
+        [
+          0,
+          369
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          161,
+          7
+        ]
+      ]
+    }
+  ],
+  "layout_note": "2열×4행의8프레임. 원본을 균일8분할하지 않고 실제 content_rect와 clip_polygon_in_content를 모두 사용. 일부 인접 프레임은 bbox만 겹치므로 polygon으로 이웃 그림을 제외한다.",
+  "anchor_note": "원본 픽셀 기준. crop 왼쪽 위에서 발 기준선과 몸통 중심의 상대 위치. 모든 프레임은 411 기준 동일 배율. 별도 프레임별 높이 확대 금지."
+}
